@@ -27,7 +27,21 @@ const handleClick = (element) => {
 }
 
 const addMarker = (id) => {
-  console.log(`We'll place a mark on square: ${id}`)
+  console.log(`We'll place a mark on square: ${id}`);
+
+  document.getElementById(id).innerHTML = currentMarker;
+  
+//  let currentElement = document.getElementById(id);
+//  currentElement.innerHTML = `${currentMarker}` //?? how is this different from OG line? And why would we want to put the literal here?
+
+
+  const row = parseInt(id.charAt(0)) // Our "id"s are formatted as 0-1, 0-2, etc., meaning they have 3 indexes  - a number,dash, and another number. The first # = the row and the other # = the column. grabbing the character of the 0 index, takes the first number (our row), and then we grab the third indexed with charAt(2) (our column). we use the parseInt method to get the number rather than it being passed as a string.
+
+  const column = parseInt(id.charAt(2))  // so we can't have parseInt(element.id.charAt(2))? Is that too many levels b/c syntax of parseInt is string.method(index)?
+  
+  board[row][column] = currentMarker
+  
+  checkForWin()
   // @TODO, Mix & Match. 
   // You will need the following pieces:
   
@@ -49,6 +63,8 @@ const updateBoard = (id) => {
   console.log(`you clicked the sq at ${row} and ${column}`)
   console.log(board)
 
+  changeMarker()
+
   // @TODO, Your code here: use the above information to change the board variable(array of arrays)
   // HINT: in your browser open up the dev tools -> console
 }
@@ -58,6 +74,7 @@ const checkForWin = () => {
   if(horizontalWin() || verticalWin() || diagonalWin()) {
     // **BONUS** you could make the dismissal of this alert window reset the board...
     window.alert(`Player ${currentMarker} won!`)
+    resetBoard()
   } else {
     // if no win, change the marker from X to O, or O to X for the next player.
     changeMarker()
@@ -65,16 +82,44 @@ const checkForWin = () => {
 }
 
 const horizontalWin = () => {
-  // @TODO, Your code here: to check for horizontal wins
-}
+ 
+
+  if((board[0][0] == "X" && board[0][1] == "X" && board[0][2] == "X") 
+  || (board[0][0] == "O" && board[0][1] == "O" && board[0][2] == "O")
+  || (board[1][0] == "X" && board[1][1] == "X" && board[1][2] == "O")
+  || (board[1][0] == "O" && board[1][1] == "O" && board[1][2] == "O")
+  || (board[2][0] == "X" && board[2][1] == "X" && board[2][2] == "O")
+  || (board[2][0] == "O" && board[2][1] == "O" && board[2][2] == "O")
+  ) {
+    console.log("you win!");
+  
+    return true;
+  }
+  }
 
 const verticalWin = () => {
-  // @TODO, Your code here: to check for vertical wins
-}
+  if((board[0][0] == "X" && board[1][0] == "X" && board[2][0] == "X") 
+  || (board[0][0] == "O" && board[1][0] == "O" && board[2][0] == "O")
+  || (board[0][1] == "X" && board[1][1] == "X" && board[2][1] == "X")
+  || (board[0][1] == "O" && board[1][1] == "O" && board[2][1] == "O")
+  || (board[0][2] == "X" && board[1][2] == "X" && board[2][2] == "X")
+  || (board[0][2] == "O" && board[1][2] == "O" && board[2][2] == "O")
+  )
+  {
+    return true;
+  }}
 
 const diagonalWin = () => {
-  // @TODO, Your code here: to check for diagonal wins
-}
+  if((board[0][0] == "X" && board[1][1] == "X" && board[2][2] == "X") 
+  || (board[0][0] == "O" && board[1][1] == "O" && board[2][2] == "O")
+  || (board[0][2] == "X" && board[1][1] == "X" && board[2][0] == "X")
+  || (board[0][2] == "O" && board[1][1] == "O" && board[2][0] == "O")
+)
+{
+  console.log("you won!")
+  return true;
+  
+}}
 
 const changeMarker = () => {
   // ternary operator: if it's an X make it an O, if O make it an X
@@ -93,8 +138,12 @@ const resetBoard = () => {
     console.log(squares[i])
     squares[i].innerHTML = null
   }
-  
-  // @TODO, Your code here: make sure to reset the array of arrays to empty for a new game
+
+ board =  [
+  ['','',''],
+  ['','',''],
+  ['','','']
+];
 }
 
 // **BONUSES**

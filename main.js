@@ -13,14 +13,27 @@ const rl = readline.createInterface({
 // creates an empty "board" for the user to see where marks can be placed.
 // using let because the variable is expected to change with more 'X's and 'O's to add
 let board = [
-  [' ', ' ', ' '],
-  [' ', ' ', ' '],
-  [' ', ' ', ' ']
+  ['', '', ''],
+  ['', '', ''],
+  ['', '', '']
 ];
+
 
 // assigns the first mark as 'X'
 // using let because the variable is expected to change from 'X' to 'O' and back
 let playerTurn = 'X';
+
+const changeMarker = () => {
+  if(playerTurn === "X"){
+    playerTurn = "O"
+  } else {
+    playerTurn = "X"
+  }
+}
+
+
+
+
 
 // is a function that prints the current status of the board using the variable - board
 const printBoard = () => {
@@ -87,7 +100,6 @@ const checkForWin = () => {
 }
 
 const ticTacToe = (row, column) => {
-
     
     board[row][column] = playerTurn
     
@@ -106,13 +118,7 @@ const getPrompt = () => {
   });
 }
 
-const changeMarker = () => {
-  if(playerTurn === "X"){
-    playerTurn = "O"
-  } else {
-    playerTurn = "X"
-  }
-}
+
 
 // Unit Tests
 // You use them run the command: npm test main.js
@@ -122,12 +128,13 @@ if (typeof describe === 'function') {
   describe('#ticTacToe()', () => {
     it('should place mark on the board', () => {
       ticTacToe(1, 1);
-      assert.deepEqual(board, [ [' ', ' ', ' '], [' ', 'X', ' '], [' ', ' ', ' '] ]);
+      assert.deepEqual(board, [ ['', '', ''], ['', 'X', ''], ['', '', ''] ]);
     });
     it('should alternate between players', () => {
       ticTacToe(0, 0);
-      assert.deepEqual(board, [ ['O', ' ', ' '], [' ', 'X', ' '], [' ', ' ', ' '] ]);
+      assert.deepEqual(board, [ ['O', '', ''], ['', 'X', ''], ['', '', ''] ]);
     });
+    
     it('should check for vertical wins', () => {
       board = [ [' ', 'X', ' '], [' ', 'X', ' '], [' ', 'X', ' '] ];
       assert.equal(verticalWin(), true);
